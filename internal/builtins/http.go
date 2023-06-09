@@ -41,6 +41,7 @@ var (
 	ErrInvalidHdrVal     = errors.New("invalid header value type")
 	ErrInvalidType       = errors.New("invalid type")
 	ErrInsecureWebhook   = errors.New("secure webhook missing authorization")
+	ErrIncorrectPassword = errors.New("incorrect password")
 )
 
 var httpModule = &starlarkstruct.Module{
@@ -355,7 +356,7 @@ func verifySecure(pwdHash, pluginName string, req *http.Request) error {
 	fmt.Println(string(pwd))
 
 	if err := bcrypt.CompareHashAndPassword([]byte(pwdHash), pwd); err != nil {
-		return err
+		return ErrIncorrectPassword
 	}
 
 	return nil
