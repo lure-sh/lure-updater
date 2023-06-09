@@ -15,12 +15,7 @@ builds:
       - arm
 archives:
   - id: archive
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "arm64"}}aarch64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
+    name_template: "{{ .ProjectName }}-{{ .Arch }}"
     files:
     - lure-updater.example.toml
 blobs:

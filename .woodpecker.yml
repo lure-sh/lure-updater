@@ -6,3 +6,16 @@ pipeline:
     secrets: [ gitea_token, aws_access_key_id, aws_secret_access_key ]
     when:
       event: tag
+  
+  deploy:
+    image: loq9/drone-nomad
+    secrets: [ github_password, password_hash ]
+    settings:
+      addr: http://192.168.100.62:4646
+      template: template.nomad
+    environment:
+      - PLUGIN_WATCH_DEPLOYMENT=true
+      - PLUGIN_WATCH_DEPLOYMENT_TIMEOUT=10m
+    when:
+      branch: public
+      event: push
