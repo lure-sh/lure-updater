@@ -10,7 +10,7 @@ Since LURE is meant to be able to install many different types of packages, this
 
 For example, the plugin for `discord-bin` repeatedly polls discord's API every hour for the current latest download link. It puts the link in persistent storage, and if it has changed since last time, it parses the URL to extract the version number, and uses that to update the build script for `discord-bin`.
 
-Another example is the plugin for `lure-bin`, which accepts a webhook from Gitea. When it receives the webhook, it parses the JSON body and gets the download URL, which it uses to download the checksum file, and uses the information inside that to update the build script for `lure-bin`.
+Another example is the plugin for `lure-bin`, which accepts a webhook from GoReleaser. When it receives the webhook, it parses the JSON body and gets the download URL, which it uses to download the checksum file, and uses the information inside that to update the build script for `lure-bin`.
 
 ---
 
