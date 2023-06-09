@@ -26,10 +26,10 @@ blobs:
     ids:
       - archive
     folder: "/"
-release:
-  gitea:
-    owner: Elara6331
-    name: lure-updater
+#release:
+#  gitea:
+#    owner: Elara6331
+#    name: lure-updater
 gitea_urls:
   api: 'https://gitea.elara.ws/api/v1/'
   download: 'https://gitea.elara.ws'

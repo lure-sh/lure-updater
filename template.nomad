@@ -3,15 +3,27 @@ job "lure-updater" {
   datacenters = ["dc1"]
   type        = "service"
 
-  group "site" {
+  group "lure-updater" {
     network {
       port "webhook" {
         to = 8080
       }
     }
 
+    volume "lure-updater-data" {
+      type = "host"
+      source = "lure-updater-data"
+      read_only = false
+    }
+
     task "lure-updater" {
       driver = "docker"
+
+      volume_mount {
+        volume = "lure-updater-data"
+        destination = "/etc/lure-updater"
+        read_only = false
+      }
 
       env {
         GIT_REPO_DIR="/etc/lure-updater/repo"
@@ -30,14 +42,14 @@ job "lure-updater" {
       config {
         image   = "alpine:latest"
         ports   = ["webhook"]
-        volumes = ["local/:/opt/lure-updater:ro"]
+        volumes = ["local/lure-updater/:/opt/lure-updater:ro"]
         command = "/opt/lure-updater/lure-updater"
         args    = ["-E"]
-    }
+      }
 
       artifact {
-        source      = "https://api.minio.elara.ws/site/site.tar.gz"
-        destination = "local/site"
+        source      = "https://api.minio.elara.ws/lure-updater/lure-updater-$${attr.cpu.arch}.tar.gz"
+        destination = "local/lure-updater"
       }
 
       service {
@@ -46,8 +58,8 @@ job "lure-updater" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.site.rule=Host(`updater.lure.elara.ws`)",
-          "traefik.http.routers.site.tls.certResolver=letsencrypt",
+          "traefik.http.routers.lure-updater.rule=Host(`updater.lure.elara.ws`)",
+          "traefik.http.routers.lure-updater.tls.certResolver=letsencrypt",
         ]
       }
     }
