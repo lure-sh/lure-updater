@@ -1,0 +1,15 @@
+[git]
+  repoURL = "https://github.com/Elara6331/lure-repo.git"
+  repoDir = "/etc/lure-updater/repo"
+  [git.commit]
+    # The name and email to use in the git commit
+    name = "CHANGE ME"
+    email = "CHANGE ME"
+  [git.credentials]
+    # Username and password for git push. Use a personal access token as the password for Github.
+    username = "CHANGE ME"
+    password = "CHANGE ME"
+
+[webhook]
+  # A hash of the webhook password. Generate one using `lure-updater -g`.
+  pwd_hash = "CHANGE ME"
