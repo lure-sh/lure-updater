@@ -25,6 +25,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/caarlos0/env/v8"
 	"github.com/go-git/go-git/v5"
 	"github.com/pelletier/go-toml/v2"
 	"github.com/spf13/pflag"
@@ -49,6 +50,7 @@ func main() {
 	pluginDir := pflag.StringP("plugin-dir", "p", "/etc/lure-updater/plugins", "Path to plugin directory")
 	serverAddr := pflag.StringP("address", "a", ":8080", "Webhook server address")
 	genHash := pflag.BoolP("gen-hash", "g", false, "Generate a password hash for webhooks")
+	useEnv := pflag.BoolP("use-env", "E", false, "Use environment variables for configuration")
 	pflag.Parse()
 
 	if *genHash {
@@ -71,13 +73,20 @@ func main() {
 	}
 
 	cfg := &config.Config{}
-	fl, err := os.Open(*configPath)
-	if err != nil {
-		log.Fatal("Error opening config file").Err(err).Send()
-	}
-	err = toml.NewDecoder(fl).Decode(cfg)
-	if err != nil {
-		log.Fatal("Error decoding config file").Err(err).Send()
+	if *useEnv {
+		err = env.Parse(cfg)
+		if err != nil {
+			log.Fatal("Error parsing environment variables").Err(err).Send()
+		}
+	} else {
+		fl, err := os.Open(*configPath)
+		if err != nil {
+			log.Fatal("Error opening config file").Err(err).Send()
+		}
+		err = toml.NewDecoder(fl).Decode(cfg)
+		if err != nil {
+			log.Fatal("Error decoding config file").Err(err).Send()
+		}
 	}
 
 	if _, err := os.Stat(cfg.Git.RepoDir); os.IsNotExist(err) {

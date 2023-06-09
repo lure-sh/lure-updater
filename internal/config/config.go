@@ -19,27 +19,27 @@
 package config
 
 type Config struct {
-	Git     Git     `toml:"git"`
-	Webhook Webhook `toml:"webhook"`
+	Git     Git     `toml:"git" envPrefix:"GIT_"`
+	Webhook Webhook `toml:"webhook" envPrefix:"WEBHOOK_"`
 }
 
 type Git struct {
-	RepoDir     string      `toml:"repoDir"`
-	RepoURL     string      `toml:"repoURL"`
-	Commit      Commit      `toml:"commit"`
-	Credentials Credentials `toml:"credentials"`
+	RepoDir     string      `toml:"repoDir" env:"REPO_DIR"`
+	RepoURL     string      `toml:"repoURL" env:"REPO_URL"`
+	Commit      Commit      `toml:"commit" envPrefix:"COMMIT_"`
+	Credentials Credentials `toml:"credentials" envPrefix:"CREDENTIALS_"`
 }
 
 type Credentials struct {
-	Username string
-	Password string
+	Username string `toml:"username" env:"USERNAME"`
+	Password string `toml:"password" env:"PASSWORD"`
 }
 
 type Commit struct {
-	Name  string `toml:"name"`
-	Email string `toml:"email"`
+	Name  string `toml:"name" env:"NAME"`
+	Email string `toml:"email" env:"EMAIL"`
 }
 
 type Webhook struct {
-	PasswordHash string `toml:"pwd_hash"`
+	PasswordHash string `toml:"pwd_hash" env:"PASSWORD_HASH"`
 }
