@@ -1,0 +1,8 @@
+pipeline:
+  release:
+    image: goreleaser/goreleaser
+    commands:
+      - goreleaser release
+    secrets: [ gitea_token, aws_access_key_id, aws_secret_access_key ]
+    when:
+      event: tag
