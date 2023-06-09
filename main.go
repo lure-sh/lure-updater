@@ -41,7 +41,6 @@ import (
 
 func init() {
 	log.Logger = logger.NewPretty(os.Stderr)
-	log.Logger.SetLevel(logger.LogLevelDebug)
 }
 
 func main() {
@@ -51,7 +50,12 @@ func main() {
 	serverAddr := pflag.StringP("address", "a", ":8080", "Webhook server address")
 	genHash := pflag.BoolP("gen-hash", "g", false, "Generate a password hash for webhooks")
 	useEnv := pflag.BoolP("use-env", "E", false, "Use environment variables for configuration")
+	debug := pflag.BoolP("debug", "d", false, "Enable debug logging")
 	pflag.Parse()
+
+	if *debug {
+		log.Logger.SetLevel(logger.LogLevelDebug)
+	}
 
 	if *genHash {
 		fmt.Print("Password: ")
