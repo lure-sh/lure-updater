@@ -6,7 +6,7 @@ Modular bot that automatically checks for upstream updates and pushes new packag
 
 ### How it works
 
-Since LURE is meant to be able to install many different types of packages, this bot accepts plugins in the form of [Starlark](https://github.com/bazelbuild/starlark) files. These plugins can schedule functions to be run at certain intervals, or when a webhook is received, and they have access to persistent key/value storage to keep track of information. This allows plugins to use many different ways to detect upstream updates.
+Since LURE is meant to be able to install many different types of packages, this bot accepts plugins in the form of [Starlark](https://github.com/bazelbuild/starlark) files rather than hardcoding each package. These plugins can schedule functions to be run at certain intervals, or when a webhook is received, and they have access to persistent key/value storage to keep track of information. This allows plugins to use many different ways to detect upstream updates.
 
 For example, the plugin for `discord-bin` repeatedly polls discord's API every hour for the current latest download link. It puts the link in persistent storage, and if it has changed since last time, it parses the URL to extract the version number, and uses that to update the build script for `discord-bin`.
 
