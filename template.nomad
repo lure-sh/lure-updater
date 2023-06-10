@@ -44,7 +44,7 @@ job "lure-updater" {
         ports   = ["webhook"]
         volumes = ["local/lure-updater/:/opt/lure-updater:ro"]
         command = "/opt/lure-updater/lure-updater"
-        args    = ["-E"]
+        args    = ["-dE"]
       }
 
       artifact {
