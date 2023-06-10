@@ -91,6 +91,10 @@ func main() {
 		if err != nil {
 			log.Fatal("Error decoding config file").Err(err).Send()
 		}
+		err = fl.Close()
+		if err != nil {
+			log.Fatal("Error closing config file").Err(err).Send()
+		}
 	}
 
 	if _, err := os.Stat(cfg.Git.RepoDir); os.IsNotExist(err) {
