@@ -11,8 +11,8 @@ job "lure-updater" {
     }
 
     volume "lure-updater-data" {
-      type = "host"
-      source = "lure-updater-data"
+      type      = "host"
+      source    = "lure-updater-data"
       read_only = false
     }
 
@@ -20,20 +20,20 @@ job "lure-updater" {
       driver = "docker"
 
       volume_mount {
-        volume = "lure-updater-data"
+        volume      = "lure-updater-data"
         destination = "/etc/lure-updater"
-        read_only = false
+        read_only   = false
       }
 
       env {
-        GIT_REPO_DIR="/etc/lure-updater/repo"
-        GIT_REPO_URL="https://github.com/Elara6331/lure-repo.git"
-        GIT_CREDENTIALS_USERNAME="lure-repo-bot"
-        GIT_CREDENTIALS_PASSWORD="${GITHUB_PASSWORD}"
-        GIT_COMMIT_NAME="lure-repo-bot"
-        GIT_COMMIT_EMAIL="lure@elara.ws"
-        WEBHOOK_PASSWORD_HASH="${PASSWORD_HASH}"
-        
+        GIT_REPO_DIR             = "/etc/lure-updater/repo"
+        GIT_REPO_URL             = "https://github.com/Elara6331/lure-repo.git"
+        GIT_CREDENTIALS_USERNAME = "lure-repo-bot"
+        GIT_CREDENTIALS_PASSWORD = "${GITHUB_PASSWORD}"
+        GIT_COMMIT_NAME          = "lure-repo-bot"
+        GIT_COMMIT_EMAIL         = "lure@elara.ws"
+        WEBHOOK_PASSWORD_HASH    = "${PASSWORD_HASH}"
+
         // Hack to force Nomad to re-deploy the service
         // instead of ignoring it
         COMMIT_SHA = "${DRONE_COMMIT_SHA}"
@@ -41,10 +41,10 @@ job "lure-updater" {
 
       config {
         image   = "alpine:latest"
-        ports   = ["webhook"]
-        volumes = ["local/lure-updater/:/opt/lure-updater:ro"]
         command = "/opt/lure-updater/lure-updater"
         args    = ["-dE"]
+        ports   = ["webhook"]
+        volumes = ["local/lure-updater/:/opt/lure-updater:ro"]
       }
 
       artifact {
