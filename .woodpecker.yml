@@ -17,5 +17,4 @@ pipeline:
       - PLUGIN_WATCH_DEPLOYMENT=true
       - PLUGIN_WATCH_DEPLOYMENT_TIMEOUT=10m
     when:
-      branch: public
       event: tag
