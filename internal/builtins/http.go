@@ -353,8 +353,6 @@ func verifySecure(pwdHash, pluginName string, req *http.Request) error {
 		return ErrInsecureWebhook
 	}
 
-	fmt.Println(string(pwd))
-
 	if err := bcrypt.CompareHashAndPassword([]byte(pwdHash), pwd); err != nil {
 		return ErrIncorrectPassword
 	}
