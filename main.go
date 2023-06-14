@@ -50,7 +50,7 @@ func main() {
 	serverAddr := pflag.StringP("address", "a", ":8080", "Webhook server address")
 	genHash := pflag.BoolP("gen-hash", "g", false, "Generate a password hash for webhooks")
 	useEnv := pflag.BoolP("use-env", "E", false, "Use environment variables for configuration")
-	debug := pflag.BoolP("debug", "d", false, "Enable debug logging")
+	debug := pflag.BoolP("debug", "D", false, "Enable debug logging")
 	pflag.Parse()
 
 	if *debug {

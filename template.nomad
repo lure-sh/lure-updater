@@ -42,7 +42,7 @@ job "lure-updater" {
       config {
         image   = "alpine:latest"
         command = "/opt/lure-updater/lure-updater"
-        args    = ["-dE"]
+        args    = ["-DE"]
         ports   = ["webhook"]
         volumes = ["local/lure-updater/:/opt/lure-updater:ro"]
       }
