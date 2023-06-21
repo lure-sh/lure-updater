@@ -53,7 +53,7 @@ job "lure-updater" {
       }
 
       service {
-        name = "site"
+        name = "lure-updater"
         port = "webhook"
 
         tags = [
