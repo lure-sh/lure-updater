@@ -34,7 +34,7 @@ func newStarlarkReader(r io.Reader) starlarkReader {
 		"read_all":          starlark.NewBuiltin("reader.read_all", sr.readAll),
 		"read_all_string":   starlark.NewBuiltin("reader.read_all_string", sr.readAllString),
 		"read_json":         starlark.NewBuiltin("reader.read_json", sr.readJSON),
-		"read_msgpack":      starlark.NewBuiltin("read_msgpack", sr.readMsgpack),
+		"read_msgpack":      starlark.NewBuiltin("reader.read_msgpack", sr.readMsgpack),
 		"close":             starlark.NewBuiltin("reader.close", sr.closeReader),
 	})
 

@@ -124,6 +124,8 @@ go.elara.ws/logger v0.0.0-20230421022458-e80700db2090 h1:RVC8XvWo6Yw4HUshqx4TSzu
 go.elara.ws/logger v0.0.0-20230421022458-e80700db2090/go.mod h1:qng49owViqsW5Aey93lwBXONw20oGbJIoLVscB16mPM=
 go.elara.ws/pcre v0.0.0-20230421030233-daf2d2e6973f h1:ZwR0xvBeP5BHHv63fgfuwhZIj+Si5rp79WSDUE73ZVA=
 go.elara.ws/pcre v0.0.0-20230421030233-daf2d2e6973f/go.mod h1:EF48C6VnP4wBayzFGk6lXqbiLucH7EfiaYOgiiCe5k4=
+go.elara.ws/vercmp v0.0.0-20230622213404-1ef50f776de8 h1:Q4fiNpQH1qOlPUVt/cVoW3VtIvOe+jo7mFTX0Sor7O4=
+go.elara.ws/vercmp v0.0.0-20230622213404-1ef50f776de8/go.mod h1:/7PNW7nFnDR5W7UXZVc04gdVLR/wBNgkm33KgIz0OBk=
 go.etcd.io/bbolt v1.3.7 h1:j+zJOnnEjF/kyHlDDgGnVL/AIqIJPq8UoB2GSNfkUfQ=
 go.etcd.io/bbolt v1.3.7/go.mod h1:N9Mkw9X8x5fupy0IKsmuqVtoGDyxsaDlbk4Rd05IAQw=
 go.starlark.net v0.0.0-20230525235612-a134d8f9ddca h1:VdD38733bfYv5tUZwEIskMM93VanwNIi5bIKnDrJdEY=
@@ -137,6 +139,8 @@ golang.org/x/crypto v0.7.0/go.mod h1:pYwdfH91IfpZVANVyUOhSIPZaFoJGxTFbZhFTx+dXZU
 golang.org/x/crypto v0.9.0 h1:LF6fAI+IutBocDJ2OT0Q1g8plpYljMZ4+lty+dsqw3g=
 golang.org/x/crypto v0.9.0/go.mod h1:yrmDGqONDYtNj3tH8X9dzUun2m2lzPa9ngI6/RUPGR0=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
+golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 h1:k/i9J1pBpvlfR+9QsetwPyERsqu1GIbi967PQMq3Ivc=
+golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1/go.mod h1:V1LtkGg67GoY2N1AnLN78QLrzxkLyJw7RJb1gzOOz9w=
 golang.org/x/lint v0.0.0-20181026193005-c67002cb31c3/go.mod h1:UVdnD1Gm6xHRNCYTkRU2/jEulfH38KcIWyp/GAMgvoE=
 golang.org/x/lint v0.0.0-20190227174305-5b3e6a55c961/go.mod h1:wehouNa3lNwaWXcvxsM5YxQ5yQlVC4a0KAMCusXpPoU=
 golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=

@@ -10,6 +10,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5
 	go.elara.ws/logger v0.0.0-20230421022458-e80700db2090
 	go.elara.ws/pcre v0.0.0-20230421030233-daf2d2e6973f
+	go.elara.ws/vercmp v0.0.0-20230622214216-0b2b067575c4
 	go.etcd.io/bbolt v1.3.7
 	go.starlark.net v0.0.0-20230525235612-a134d8f9ddca
 	golang.org/x/crypto v0.9.0
@@ -38,6 +39,7 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
+	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 // indirect
 	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
