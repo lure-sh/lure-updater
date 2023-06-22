@@ -174,7 +174,7 @@ func starlarkResponse(res *http.Response) *starlarkstruct.Struct {
 	return starlarkstruct.FromStringDict(starlarkstruct.Default, starlark.StringDict{
 		"code":    starlark.MakeInt(res.StatusCode),
 		"headers": starlarkStringSliceMap(res.Header),
-		"body":    starlarkBody(res.Body),
+		"body":    newStarlarkReader(res.Body),
 	})
 }
 
@@ -184,7 +184,7 @@ func starlarkRequest(req *http.Request) *starlarkstruct.Struct {
 		"remote_addr": starlark.String(req.RemoteAddr),
 		"headers":     starlarkStringSliceMap(req.Header),
 		"query":       starlarkStringSliceMap(req.URL.Query()),
-		"body":        starlarkBody(req.Body),
+		"body":        newStarlarkReader(req.Body),
 	})
 }
 
@@ -198,44 +198,6 @@ func starlarkStringSliceMap(ssm map[string][]string) *starlark.Dict {
 		dict.SetKey(starlark.String(key), starlark.NewList(sVals))
 	}
 	return dict
-}
-
-func starlarkBody(body io.ReadCloser) *starlarkstruct.Struct {
-	return starlarkstruct.FromStringDict(starlarkstruct.Default, starlark.StringDict{
-		"string": bodyAsString(body),
-		"bytes":  bodyAsBytes(body),
-		"close":  bodyClose(body),
-	})
-}
-
-func bodyAsBytes(body io.ReadCloser) *starlark.Builtin {
-	return starlark.NewBuiltin("http.response.body.bytes", func(thread *starlark.Thread, b *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {
-		data, err := io.ReadAll(io.LimitReader(body, maxBodySize))
-		if err != nil {
-			return nil, err
-		}
-		return starlark.Bytes(data), nil
-	})
-}
-
-func bodyAsString(body io.ReadCloser) *starlark.Builtin {
-	return starlark.NewBuiltin("http.response.body.string", func(thread *starlark.Thread, b *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {
-		data, err := io.ReadAll(io.LimitReader(body, maxBodySize))
-		if err != nil {
-			return nil, err
-		}
-		return starlark.String(data), nil
-	})
-}
-
-func bodyClose(body io.ReadCloser) *starlark.Builtin {
-	return starlark.NewBuiltin("http.response.body.close", func(thread *starlark.Thread, b *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {
-		err := body.Close()
-		if err != nil {
-			return nil, err
-		}
-		return starlark.None, nil
-	})
 }
 
 func registerWebhook(mux *http.ServeMux, cfg *config.Config, pluginName string) *starlark.Builtin {
