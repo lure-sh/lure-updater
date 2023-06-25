@@ -44,5 +44,6 @@ func Register(sd starlark.StringDict, opts *Options) {
 	sd["log"] = logModule(opts.Name)
 	sd["json"] = starlarkjson.Module
 	sd["utils"] = utilsModule
+	sd["html"] = htmlModule
 	sd["register_webhook"] = registerWebhook(opts.Mux, opts.Config, opts.Name)
 }

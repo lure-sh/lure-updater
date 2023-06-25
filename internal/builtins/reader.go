@@ -200,3 +200,16 @@ func (sr starlarkReader) closeReader(thread *starlark.Thread, b *starlark.Builti
 	}
 	return starlark.None, nil
 }
+
+// Read implements the io.ReadCloser interface
+func (sr starlarkReader) Read(b []byte) (int, error) {
+	return sr.br.Read(b)
+}
+
+// Close implements the io.ReadCloser interface
+func (sr starlarkReader) Close() error {
+	if sr.closeFunc != nil {
+		return sr.closeFunc()
+	}
+	return nil
+}
