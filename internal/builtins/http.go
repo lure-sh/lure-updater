@@ -80,6 +80,8 @@ func (sbr *starlarkBodyReader) Unpack(v starlark.Value) error {
 		sbr.Reader = strings.NewReader(string(v))
 	case starlark.Bytes:
 		sbr.Reader = strings.NewReader(string(v))
+	case starlarkReader:
+		sbr.Reader = v
 	default:
 		return fmt.Errorf("%w: %s", ErrInvalidBodyType, v.Type())
 	}
