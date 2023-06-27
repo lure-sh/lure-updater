@@ -223,7 +223,7 @@ func registerWebhook(mux *http.ServeMux, cfg *config.Config, pluginName string) 
 }
 
 func webhookHandler(pluginName string, secure bool, cfg *config.Config, thread *starlark.Thread, fn *starlark.Function) http.HandlerFunc {
-	return func(res http.ResponseWriter, req *http.Request) {
+	return handleError(func(res http.ResponseWriter, req *http.Request) *HTTPError {
 		defer req.Body.Close()
 
 		res.Header().Add("X-Updater-Plugin", pluginName)
@@ -231,20 +231,22 @@ func webhookHandler(pluginName string, secure bool, cfg *config.Config, thread *
 		if secure {
 			err := verifySecure(cfg.Webhook.PasswordHash, pluginName, req)
 			if err != nil {
-				log.Error("Error verifying webhook").Err(err).Send()
-				res.WriteHeader(http.StatusForbidden)
-				_, _ = io.WriteString(res, err.Error())
-				return
+				return &HTTPError{
+					Message: "Error verifying webhook",
+					Code:    http.StatusForbidden,
+					Err:     err,
+				}
 			}
 		}
 
 		log.Debug("Calling webhook function").Str("name", fn.Name()).Stringer("pos", fn.Position()).Send()
 		val, err := starlark.Call(thread, fn, starlark.Tuple{starlarkRequest(req)}, nil)
 		if err != nil {
-			log.Error("Error while executing webhook").Err(err).Stringer("pos", fn.Position()).Send()
-			res.WriteHeader(http.StatusInternalServerError)
-			_, _ = io.WriteString(res, err.Error())
-			return
+			return &HTTPError{
+				Message: "Error while executing webhook",
+				Code:    http.StatusInternalServerError,
+				Err:     err,
+			}
 		}
 
 		switch val := val.(type) {
@@ -262,13 +264,20 @@ func webhookHandler(pluginName string, secure bool, cfg *config.Config, thread *
 			body := newBodyReader()
 			err = body.Unpack(val)
 			if err != nil {
-				log.Error("Error unpacking returned body").Err(err).Send()
-				return
+				return &HTTPError{
+					Message: "Error unpacking returned body",
+					Code:    http.StatusInternalServerError,
+					Err:     err,
+				}
 			}
 			_, err = io.Copy(res, body)
 			if err != nil {
 				log.Error("Error writing body").Err(err).Send()
-				return
+				return &HTTPError{
+					Message: "Error writing body",
+					Code:    http.StatusInternalServerError,
+					Err:     err,
+				}
 			}
 		case *starlark.Dict:
 			code := http.StatusOK
@@ -276,8 +285,11 @@ func webhookHandler(pluginName string, secure bool, cfg *config.Config, thread *
 			if ok {
 				err = starlark.AsInt(codeVal, &code)
 				if err != nil {
-					log.Error("Error decoding returned status code").Err(err).Send()
-					return
+					return &HTTPError{
+						Message: "Error decoding returned status code",
+						Code:    http.StatusInternalServerError,
+						Err:     err,
+					}
 				}
 				res.WriteHeader(code)
 			}
@@ -287,15 +299,39 @@ func webhookHandler(pluginName string, secure bool, cfg *config.Config, thread *
 			if ok {
 				err = body.Unpack(bodyVal)
 				if err != nil {
-					log.Error("Error unpacking returned body").Err(err).Send()
-					return
+					return &HTTPError{
+						Message: "Error unpacking returned body",
+						Code:    http.StatusInternalServerError,
+						Err:     err,
+					}
 				}
 				_, err = io.Copy(res, body)
 				if err != nil {
-					log.Error("Error writing body").Err(err).Send()
-					return
+					return &HTTPError{
+						Message: "Error writing body",
+						Code:    http.StatusInternalServerError,
+						Err:     err,
+					}
 				}
 			}
+		}
+		return nil
+	})
+}
+
+type HTTPError struct {
+	Code    int
+	Message string
+	Err     error
+}
+
+func handleError(h func(res http.ResponseWriter, req *http.Request) *HTTPError) http.HandlerFunc {
+	return func(res http.ResponseWriter, req *http.Request) {
+		httpErr := h(res, req)
+		if httpErr != nil {
+			log.Error(httpErr.Message).Err(httpErr.Err).Send()
+			res.WriteHeader(httpErr.Code)
+			fmt.Sprintf("%s: %s", httpErr.Message, httpErr.Err)
 		}
 	}
 }
