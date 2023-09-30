@@ -1,9 +1,6 @@
 package builtins
 
 import (
-	"io"
-	"strings"
-
 	"github.com/PuerkitoBio/goquery"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
@@ -24,20 +21,10 @@ var htmlModule = &starlarkstruct.Module{
 }
 
 func htmlParse(thread *starlark.Thread, fn *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {
-	var val starlark.Value
-	err := starlark.UnpackArgs("html.selection.find", args, kwargs, "from", &val)
+	var r readerValue
+	err := starlark.UnpackArgs("html.selection.find", args, kwargs, "from", &r)
 	if err != nil {
 		return nil, err
-	}
-
-	var r io.ReadCloser
-	switch val := val.(type) {
-	case starlark.String:
-		r = io.NopCloser(strings.NewReader(string(val)))
-	case starlark.Bytes:
-		r = io.NopCloser(strings.NewReader(string(val)))
-	case starlarkReader:
-		r = val
 	}
 	defer r.Close()
 

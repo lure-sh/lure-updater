@@ -3,7 +3,9 @@ package builtins
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"io"
+	"strings"
 
 	"github.com/vmihailenco/msgpack/v5"
 	"go.elara.ws/lure-updater/internal/convert"
@@ -211,5 +213,26 @@ func (sr starlarkReader) Close() error {
 	if sr.closeFunc != nil {
 		return sr.closeFunc()
 	}
+	return nil
+}
+
+type readerValue struct {
+	io.ReadCloser
+}
+
+func (rv *readerValue) Unpack(v starlark.Value) error {
+	switch val := v.(type) {
+	case starlark.String:
+		rv.ReadCloser = io.NopCloser(strings.NewReader(string(val)))
+	case starlark.Bytes:
+		rv.ReadCloser = io.NopCloser(strings.NewReader(string(val)))
+	case starlarkReader:
+		rv.ReadCloser = val
+	}
+
+	if rv.ReadCloser == nil {
+		return errors.New("invalid type for reader")
+	}
+
 	return nil
 }
