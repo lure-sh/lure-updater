@@ -27,7 +27,7 @@ job "lure-updater" {
 
       env {
         GIT_REPO_DIR             = "/etc/lure-updater/repo"
-        GIT_REPO_URL             = "https://github.com/Elara6331/lure-repo.git"
+        GIT_REPO_URL             = "https://github.com/lure-sh/lure-repo.git"
         GIT_CREDENTIALS_USERNAME = "lure-repo-bot"
         GIT_CREDENTIALS_PASSWORD = "${GITHUB_PASSWORD}"
         GIT_COMMIT_NAME          = "lure-repo-bot"
