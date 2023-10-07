@@ -1,5 +1,5 @@
 [git]
-  repoURL = "https://github.com/Elara6331/lure-repo.git"
+  repoURL = "https://github.com/lure-sh/lure-repo.git"
   repoDir = "/etc/lure-updater/repo"
   [git.commit]
     # The name and email to use in the git commit

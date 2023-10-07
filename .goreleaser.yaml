@@ -29,7 +29,7 @@ blobs:
     folder: "/"
 release:
   gitea:
-    owner: Elara6331
+    owner: lure
     name: lure-updater
 gitea_urls:
   api: 'https://gitea.elara.ws/api/v1/'

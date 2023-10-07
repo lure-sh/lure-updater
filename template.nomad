@@ -58,7 +58,7 @@ job "lure-updater" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.lure-updater.rule=Host(`updater.lure.elara.ws`)",
+          "traefik.http.routers.lure-updater.rule=Host(`updater.lure.sh`)",
           "traefik.http.routers.lure-updater.tls.certResolver=letsencrypt",
         ]
       }
