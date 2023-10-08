@@ -1,4 +1,4 @@
-module go.elara.ws/lure-updater
+module lure.sh/lure-updater
 
 go 1.20
 

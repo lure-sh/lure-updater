@@ -21,7 +21,7 @@ package builtins
 import (
 	"net/http"
 
-	"go.elara.ws/lure-updater/internal/config"
+	"lure.sh/lure-updater/internal/config"
 	"go.etcd.io/bbolt"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkjson"

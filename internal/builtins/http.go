@@ -27,7 +27,7 @@ import (
 	"strings"
 
 	"go.elara.ws/logger/log"
-	"go.elara.ws/lure-updater/internal/config"
+	"lure.sh/lure-updater/internal/config"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
 	"golang.org/x/crypto/bcrypt"

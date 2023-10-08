@@ -30,7 +30,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"go.elara.ws/logger/log"
-	"go.elara.ws/lure-updater/internal/config"
+	"lure.sh/lure-updater/internal/config"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
 )
